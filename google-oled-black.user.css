@@ -1,0 +1,64 @@
+/* ==UserStyle==
+@name         Google Search - OLED Black
+@namespace    oled-google-search
+@version      1.0.2
+@description  Pure #000 backgrounds for Google Search. Builds on Google's own dark theme: it turns Google's greys black.
+@license      MIT
+@homepageURL  https://github.com/Dylon99/userstyles
+@updateURL    https://raw.githubusercontent.com/Dylon99/userstyles/main/google-oled-black.user.css
+@preprocessor default
+@var color    bg       "Background"               #000000
+@var color    surface  "Popups / menus"           #0a0a0a
+@var color    border   "Popup border"             #262626
+==/UserStyle== */
+
+/* Google Search on any ccTLD (google.com, google.de, google.co.uk, ...).
+   Maps, Travel, Flights, Finance and Shopping are excluded because they ship their own UIs. */
+@-moz-document regexp("https?://(www\\.)?google\\.(com|[a-z]{2}|com?\\.[a-z]{2})/(?!(maps|travel|flights|finance|shopping)).*") {
+
+  :root,
+  html,
+  body {
+    background: var(--bg, #000000) !important;
+    background-color: var(--bg, #000000) !important;
+    color-scheme: dark;
+  }
+
+  /* Stable IDs and ARIA landmarks. Google rotates its class names every few weeks, so only these are targeted. */
+  #main, #cnt, #rcnt, #center_col, #rhs, #res, #search, #rso,
+  #botstuff, #bottomads, #tads, #taw,
+  #searchform, .sfbg, #appbar, #before-appbar,
+  #hdtb, #hdtb-msb, #top_nav,
+  #footcnt, #fbar, #sfooter,
+  header, footer,
+  [role="banner"], [role="navigation"], [role="main"], [role="contentinfo"] {
+    background-color: var(--bg, #000000) !important;
+  }
+
+  /* Remove the grey from wrappers, cards and panels inside the results area so the black background shows through.
+     Background images such as thumbnails are left alone; only background-color changes. */
+  #rcnt div:not([role="button"]):not([role="dialog"]):not([role="menu"]):not([role="listbox"]),
+  #rcnt g-inner-card,
+  #rcnt g-section-with-header,
+  #rcnt block-component,
+  #rcnt g-scrolling-carousel,
+  #rcnt g-expandable-container {
+    background-color: transparent !important;
+  }
+
+  /* Popups need their own surface, otherwise they'd be see-through. */
+  [role="dialog"],
+  [role="menu"],
+  g-menu,
+  #rcnt [role="listbox"] {
+    background-color: var(--surface, #0a0a0a) !important;
+    border: 1px solid var(--border, #262626) !important;
+  }
+
+  /* Divider lines: make them subtle instead of bright grey. */
+  #rcnt hr,
+  #appbar,
+  #top_nav {
+    border-color: var(--border, #262626) !important;
+  }
+}

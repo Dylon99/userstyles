@@ -1,0 +1,67 @@
+/* ==UserStyle==
+@name         Google Calendar - OLED Black
+@namespace    oled-google-calendar
+@version      1.0.2
+@description  Pure #000 backgrounds for Google Calendar. Requires Calendar's own dark theme (Settings > Appearance > Dark).
+@license      MIT
+@homepageURL  https://github.com/Dylon99/userstyles
+@updateURL    https://raw.githubusercontent.com/Dylon99/userstyles/main/google-calendar-oled-black.user.css
+@preprocessor default
+@var color    bg       "Background"                         #000000
+@var color    raised   "Buttons, popups, dialogs"           #141414
+@var color    lines    "Grid lines and dividers"            #262626
+==/UserStyle== */
+
+@-moz-document domain("calendar.google.com") {
+
+  /* 1. Material 3 colour tokens. Calendar paints almost all of its surfaces from these variables, and
+        their names are readable and stable, unlike the obfuscated class names. They are overridden on
+        every element because Google sometimes redefines them on inner containers instead of :root. */
+  html, body, body * {
+    --gm3-sys-color-background:               var(--bg, #000000) !important;
+    --gm3-sys-color-surface:                  var(--bg, #000000) !important;
+    --gm3-sys-color-surface-dim:              var(--bg, #000000) !important;
+    --gm3-sys-color-surface-container-lowest: var(--bg, #000000) !important;
+    --gm3-sys-color-surface-container-low:    var(--bg, #000000) !important;
+    --gm3-sys-color-surface-container:        var(--bg, #000000) !important;
+    /* Kept slightly lifted so buttons, menus and dialogs stay visible. */
+    --gm3-sys-color-surface-container-high:    var(--raised, #141414) !important;
+    --gm3-sys-color-surface-container-highest: var(--raised, #141414) !important;
+    --gm3-sys-color-surface-bright:            var(--raised, #141414) !important;
+    --gm3-sys-color-outline-variant:           var(--lines, #262626) !important;
+  }
+
+  /* 2. Fallback in case the tokens change: paint the page and the stable ARIA landmarks black directly. */
+  :root, html, body {
+    background-color: var(--bg, #000000) !important;
+    color-scheme: dark;
+  }
+
+  header[role="banner"],
+  [role="main"],
+  [role="navigation"],
+  [role="complementary"] {
+    background-color: var(--bg, #000000) !important;
+  }
+
+  /* The calendar grid has no real borders. Its lines are the colour of the grid's back layer showing
+     through 1px gaps between the day boxes, and that layer is painted with these tokens. Setting them to
+     black removed the lines, so inside the grid they take the line colour. The week-number column uses
+     the same layer, so it shows as a thin strip of that colour too, as it does in stock Google.
+     Day boxes and rows are not filled here, because a fill covers the gaps. */
+  [role="main"],
+  [role="main"] * {
+    --gm3-sys-color-surface-container-high:    var(--lines, #262626) !important;
+    --gm3-sys-color-surface-container-highest: var(--lines, #262626) !important;
+    --gm3-sys-color-surface-bright:            var(--lines, #262626) !important;
+  }
+
+  /* 3. Popups (event details, menus, the mini-calendar picker) get a lifted surface and a border. */
+  [role="dialog"],
+  [role="menu"],
+  [role="listbox"],
+  [role="tooltip"] {
+    background-color: var(--raised, #141414) !important;
+    border: 1px solid var(--lines, #262626) !important;
+  }
+}
